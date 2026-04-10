@@ -8,12 +8,20 @@ import usersRoutes from './routes/users.routes.js';
 import contactsRoutes from './routes/contacts.routes.js';
 import messagesRoutes from './routes/messages.routes.js';
 import channelsRoutes from './routes/channels.routes.js';
+import rateLimit from 'express-rate-limit';
 
 config(); // load env variables
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  rateLimit({
+    windowMs: 10 * 60 * 1000,
+    max: 40,
+  })
+);
 
 app.use(
 	cors({
